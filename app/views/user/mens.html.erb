@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Store</title>
+    <%= stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css', media: 'all' %>
+    <%= stylesheet_link_tag 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css', media: 'all' %>
+    <%= stylesheet_link_tag 'styles.css', media: 'all' %>
+    <style>
+        .circle-item {
+            width: 140px;
+            height: 140px;
+            background-color: #ccc;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: bold;
+            color: #343a40;
+            font-size: 18px;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .circle-item:hover {
+            background-color: #f8c146;
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .circle-item a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle-item a:hover {
+            color: #fff;
+        }
+
+        .section-title {
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+            font-size: 28px;
+            color: #343a40;
+        }
+
+        .filter-bar {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-bar .btn-filter {
+            font-weight: bold;
+            color: #000;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-bar .btn-filter .filter-icon {
+            margin-left: 5px;
+            font-size: 1.2rem;
+        }
+
+        .filter-panel {
+            background-color: #1a1a1a; /* Black background */
+            border: 1px solid #b71c1c; /* Red border */
+            padding: 15px;
+            position: absolute;
+            top: 50px;
+            left: 0;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1000;
+            color: #f5f5f5; /* White text */
+        }
+
+        .filter-panel h5, 
+        .filter-panel h6 {
+            color: #f5f5f5; /* White color for headers */
+        }
+
+        .form-check-label {
+            color: #f5f5f5; /* White color for checkbox labels */
+        }
+
+        .form-check-input {
+            background-color: #1a1a1a; /* Black background for checkboxes */
+            border-color: #f5f5f5; /* White border for checkboxes */
+        }
+
+        .form-check-input:checked {
+            background-color: #b71c1c; /* Red color when checked */
+            border-color: #b71c1c; /* Red border when checked */
+        }
+
+        .form-range {
+            width: 100%;
+            background-color: #1a1a1a; /* Black background for the range slider */
+        }
+
+        .form-range::-webkit-slider-thumb {
+            background-color: #b71c1c; /* Red thumb */
+        }
+
+        .form-range::-moz-range-thumb {
+            background-color: #b71c1c; /* Red thumb */
+        }
+
+        .form-range::-ms-thumb {
+            background-color: #b71c1c; /* Red thumb */
+        }
+
+        .form-range::-webkit-slider-runnable-track {
+            background-color: #f5f5f5; /* White track */
+        }
+
+        .form-range::-moz-range-track {
+            background-color: #f5f5f5; /* White track */
+        }
+
+        .form-range::-ms-track {
+            background-color: #f5f5f5; /* White track */
+        }
+
+        .close-filter-panel {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #f5f5f5;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-body h5, p {
+            color: #ffffff;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 300px; /* Set the desired height */
+            object-fit: cover; /* Ensures the image covers the area while maintaining its aspect ratio */
+        }
+
+        .filter-toggle {
+            cursor: pointer;
+        }
+
+        /* Dropdown hover effects for filter bar */
+        .dropdown:hover .dropdown-toggle {
+            color: #000; /* Ensure the text color remains black when hovered */
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            background-color: #1a1a1a; /* Black background for dropdown */
+            border: 1px solid #b71c1c; /* Red border */
+            color: #f5f5f5; /* White text */
+        }
+
+        .dropdown-item {
+            color: #f5f5f5; /* White text for dropdown items */
+        }
+
+        .dropdown-item:hover {
+            background-color: #b71c1c; /* Red background on hover */
+            color: #1a1a1a; /* Black text on hover */
+        }
+
+        /* Remove dropdown caret */
+        .dropdown-toggle::after {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark" aria-label="Main navigation">
+            <div class="container">
+                <ul class="navbar-nav navbar-nav-left" aria-label="Primary">
+                    <li class="nav-item">
+                        <%= link_to 'Home', root_path, class: 'nav-link', aria: { label: 'Home' } %>
+                    </li>
+                    <!-- Mens Wear Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="mensDropdown" role="button" aria-expanded="false" aria-label="Mens Wear">
+                            Mens Wear
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="mensDropdown">
+                            <li><%= link_to 'T-Shirts', '#', class: 'dropdown-item', aria: { label: 'Mens T-Shirts' } %></li>
+                            <li><%= link_to 'Jeans', '#', class: 'dropdown-item', aria: { label: 'Mens Jeans' } %></li>
+                            <li><%= link_to 'Jackets', '#', class: 'dropdown-item', aria: { label: 'Mens Jackets' } %></li>
+                        </ul>
+                    </li>
+                    <!-- Womens Wear Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="womensDropdown" role="button" aria-expanded="false" aria-label="Womens Wear">
+                            Womens Wear
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="womensDropdown">
+                            <li><%= link_to 'Dresses', '#', class: 'dropdown-item', aria: { label: 'Womens Dresses' } %></li>
+                            <li><%= link_to 'Tops', '#', class: 'dropdown-item', aria: { label: 'Womens Tops' } %></li>
+                            <li><%= link_to 'Skirts', '#', class: 'dropdown-item', aria: { label: 'Womens Skirts' } %></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to 'New Arrivals', '#', class: 'nav-link', aria: { label: 'New Arrivals' } %>
+                    </li>
+                </ul>
+                <%= link_to 'Fashion Store', '#', class: 'navbar-brand', aria: { label: 'Fashion Store Logo' } %>
+                <ul class="navbar-nav navbar-nav-right d-flex align-items-center" aria-label="Secondary">
+                    <li class="nav-item">
+                        <%= form_with url: '#', class: 'd-flex me-3', method: :get, role: 'search', aria: { label: 'Search Form' } do %>
+                            <label for="search" class="visually-hidden">Search</label>
+                            <%= search_field_tag :search, nil, class: 'form-control search-bar', placeholder: 'Search', aria: { label: 'Search' } %>
+                        <% end %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to '<i class="bi bi-cart"></i> Cart'.html_safe, '#', class: 'nav-link', aria: { label: 'Shopping Cart' } %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to '<i class="bi bi-person"></i> Profile'.html_safe, '#', class: 'nav-link', aria: { label: 'User Profile' } %>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mens Wear Section -->
+    <main class="container my-5">
+        <section aria-labelledby="mens-wear" class="position-relative">
+            <div class="section-title text-center" id="mens-wear">
+                <h2>Mens Wear</h2>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="circle-item mx-3">
+                    <%= link_to 'Vest', '#' %>
+                </div>
+                <div class="circle-item mx-3">
+                    <%= link_to 'Sports', '#' %>
+                </div>
+                <div class="circle-item mx-3">
+                    <%= link_to 'Suit', '#' %>
+                </div>
+                <div class="circle-item mx-3">
+                    <%= link_to 'Belt', '#' %>
+                </div>
+                <div class="circle-item mx-3">
+                    <%= link_to 'Shirt', '#' %>
+                </div>
+                <div class="circle-item mx-3">
+                    <%= link_to 'Tees', '#' %>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <span class="btn-filter filter-toggle">
+                    Filter <i class="bi bi-funnel filter-icon"></i>
+                </span>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="productDropdown" aria-expanded="false">
+                        Product
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="productDropdown">
+                        <li><%= link_to 'Jeans', '#', class: 'dropdown-item' %></li>
+                        <li><%= link_to 'Chinos', '#', class: 'dropdown-item' %></li>
+                        <li><%= link_to 'Vest', '#', class: 'dropdown-item' %></li>
+                        <li><%= link_to 'Tees', '#', class: 'dropdown-item' %></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="colorDropdown" aria-expanded="false">
+                        Color
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="colorDropdown">
+                        <li><%= link_to 'Black', '#', class: 'dropdown-item' %></li>
+                        <li><%= link_to 'Blue', '#', class: 'dropdown-item' %></li>
+                        <li><%= link_to 'Green', '#', class: 'dropdown-item' %></li>
+                        <li><%= link_to 'White', '#', class: 'dropdown-item' %></li>
+                        <li><%= link_to 'Grey', '#', class: 'dropdown-item' %></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="sizeDropdown" aria-expanded="false">
+                        Size
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="sizeDropdown">
+                        <li><%= link_to 'S', '#', class: 'dropdown-item' %></li>
+                        <li><%= link_to 'M', '#', class: 'dropdown-item' %></li>
+                        <li><%= link_to 'L', '#', class: 'dropdown-item' %></li>
+                        <li><%= link_to 'XL', '#', class: 'dropdown-item' %></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Filter Panel -->
+            <div class="filter-panel">
+                <button class="close-filter-panel" onclick="toggleFilterPanel()"><i class="bi bi-x"></i></button>
+                <!-- Filter form elements here -->
+            </div>
+        </section>
+    </main>
+</body>
+</html>

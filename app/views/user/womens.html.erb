@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Styles */
+        .circle-item {
+            width: 140px;
+            height: 140px;
+            background-color: #ccc;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: bold;
+            color: #343a40;
+            font-size: 18px;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .circle-item:hover {
+            background-color: #f8c146;
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .circle-item a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle-item a:hover {
+            color: #fff;
+        }
+
+        .section-title {
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+            font-size: 28px;
+            color: #343a40;
+        }
+
+        .filter-bar {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-bar .btn-filter {
+            font-weight: bold;
+            color: #000;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-bar .btn-filter .filter-icon {
+            margin-left: 5px;
+            font-size: 1.2rem;
+        }
+
+        .filter-panel {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            position: absolute;
+            top: 50px;
+            left: 0;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1000;
+            color: #000;
+        }
+
+        .card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-body h5, p {
+            color: #ffffff;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .filter-toggle {
+            cursor: pointer;
+        }
+
+        /* Dropdown hover effects */
+        .navbar-nav .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu {
+            background-color: #343a40;
+            border: none;
+            padding: 10px 0;
+        }
+
+        .dropdown-item {
+            color: #fff;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8c146;
+            color: #343a40;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <ul class="navbar-nav navbar-nav-left">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="mensDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mens Wear</a>
+                        <ul class="dropdown-menu" aria-labelledby="mensDropdown">
+                            <li><a class="dropdown-item" href="#">T-Shirts</a></li>
+                            <li><a class="dropdown-item" href="#">Jeans</a></li>
+                            <li><a class="dropdown-item" href="#">Jackets</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="womensDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Womens Wear</a>
+                        <ul class="dropdown-menu" aria-labelledby="womensDropdown">
+                            <li><a class="dropdown-item" href="#">Dresses</a></li>
+                            <li><a class="dropdown-item" href="#">Tops</a></li>
+                            <li><a class="dropdown-item" href="#">Skirts</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">New Arrivals</a>
+                    </li>
+                </ul>
+                <a class="navbar-brand" href="#">Fashion Store</a>
+                <ul class="navbar-nav navbar-nav-right d-flex align-items-center">
+                    <li class="nav-item">
+                        <form class="d-flex me-3">
+                            <input class="form-control search-bar" type="search" placeholder="Search" aria-label="Search">
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-cart"></i> Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-person"></i> Profile</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mens Wear Section -->
+    <main class="container my-5">
+        <section aria-labelledby="mens-wear" class="position-relative">
+            <div class="section-title text-center" id="mens-wear">
+                <h2>Mens Wear</h2>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="circle-item mx-3">
+                    <a href="#">Vest</a>
+                </div>
+                <div class="circle-item mx-3">
+                    <a href="#">Sports</a>
+                </div>
+                <div class="circle-item mx-3">
+                    <a href="#">Suit</a>
+                </div>
+                <div class="circle-item mx-3">
+                    <a href="#">Belt</a>
+                </div>
+                <div class="circle-item mx-3">
+                    <a href="#">Shirt</a>
+                </div>
+                <div class="circle-item mx-3">
+                    <a href="#">Tees</a>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <span class="btn-filter filter-toggle">Filter <i class="bi bi-funnel filter-icon"></i></span>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="productDropdown" data-bs-toggle="dropdown" aria-expanded="false">Product</button>
+                    <ul class="dropdown-menu" aria-labelledby="productDropdown">
+                        <li><a class="dropdown-item" href="#">Jeans</a></li>
+                        <li><a class="dropdown-item" href="#">Chinos</a></li>
+                        <li><a class="dropdown-item" href="#">Vest</a></li>
+                        <li><a class="dropdown-item" href="#">Tees</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="colorDropdown" data-bs-toggle="dropdown" aria-expanded="false">Color</button>
+                    <ul class="dropdown-menu" aria-labelledby="colorDropdown">
+                        <li><a class="dropdown-item" href="#">Black</a></li>
+                        <li><a class="dropdown-item" href="#">Blue</a></li>
+                        <li><a class="dropdown-item" href="#">Green</a></li>
+                        <li><a class="dropdown-item" href="#">White</a></li>
+                        <li><a class="dropdown-item" href="#">Grey</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="sizeDropdown" data-bs-toggle="dropdown" aria-expanded="false">Size</button>
+                    <ul class="dropdown-menu" aria-labelledby="sizeDropdown">
+                        <li><a class="dropdown-item" href="#">S</a></li>
+                        <li><a class="dropdown-item" href="#">M</a></li>
+                        <li><a class="dropdown-item" href="#">L</a></li>
+                        <li><a class="dropdown-item" href="#">XL</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="priceDropdown" data-bs-toggle="dropdown" aria-expanded="false">Price</button>
+                    <ul class="dropdown-menu" aria-labelledby="priceDropdown">
+                        <li><a class="dropdown-item" href="#">$10-$20</a></li>
+                        <li><a class="dropdown-item" href="#">$21-$30</a></li>
+                        <li><a class="dropdown-item" href="#">$31-$40</a></li>
+                        <li><a class="dropdown-item" href="#">$41-$50</a></li>
+                        <li><a class="dropdown-item" href="#">$51-$60</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Filter Panel -->
+            <div class="filter-panel">
+                <!-- Add filter form here -->
+            </div>
+        </section>
+
+        <!-- Product Listings -->
+        <section class="product-listings my-5">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card bg-dark text-white">
+                        <img src="https://via.placeholder.com/300x400" class="card-img-top" alt="Product 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Product 1</h5>
+                            <p class="card-text">$29.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card bg-dark text-white">
+                        <img src="https://via.placeholder.com/300x400" class="card-img-top" alt="Product 2">
+                        <div class="card-body">
+                            <h5 class="card-title">Product 2</h5>
+                            <p class="card-text">$39.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card bg-dark text-white">
+                        <img src="https://via.placeholder.com/300x400" class="card-img-top" alt="Product 3">
+                        <div class="card-body">
+                            <h5 class="card-title">Product 3</h5>
+                            <p class="card-text">$49.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card bg-dark text-white">
+                        <img src="https://via.placeholder.com/300x400" class="card-img-top" alt="Product 4">
+                        <div class="card-body">
+                            <h5 class="card-title">Product 4</h5>
+                            <p class="card-text">$59.99</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-center text-white py-3">
+        <div>Fashion Store &copy; 2024</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
