@@ -11,16 +11,16 @@
 # /.env*
 # !/.env*.erb
 
-# # Ignore all logfiles and tempfiles.
-# /log/*
-# /tmp/*
-# !/log/.keep
-# !/tmp/.keep
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
 
-# # Ignore pidfiles, but keep the directory.
-# /tmp/pids/*
-# !/tmp/pids/
-# !/tmp/pids/.keep
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
 
 # # Ignore storage (uploaded files in development and any SQLite databases).
 # /storage/*
@@ -33,3 +33,4 @@
 
 # # Ignore master key for decrypting credentials and more.
 # /config/master.key
+/tmp/cache/bootsnap
