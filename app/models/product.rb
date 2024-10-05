@@ -16,6 +16,10 @@ class Product < ApplicationRecord
   # Custom validation for variants
   validate :must_have_at_least_one_variant
 
+  GENDERS = ['Men', 'Women'] # You can adjust these options
+
+  validates :gender, inclusion: { in: GENDERS }
+
   # Scopes for sales
   def self.most_sold
     joins(variants: :sales)

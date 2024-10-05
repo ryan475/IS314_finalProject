@@ -41,6 +41,11 @@
   <% end %>
 </div>
 
+<div class="text-center mt-4 mb-5">
+  <%= link_to 'Add New Product', new_admin_product_path, class: 'btn btn-primary' %>
+</div>
+
+
 <% if flash[:alert] %>
   <div class="alert alert-danger text-center">
     <%= flash[:alert] %>
@@ -90,10 +95,6 @@
       </div>
     <% end %>
   </div>
-</div>
-
-<div class="text-center mt-4 mb-5">
-  <%= link_to 'Add New Product', new_admin_product_path, class: 'btn btn-primary' %>
 </div>
 
 <style>

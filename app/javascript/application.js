@@ -1,39 +1,42 @@
-import "@hotwired/turbo-rails"
-import "controllers"
+import "@hotwired/turbo-rails";
+import "controllers";
 
 document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('product-form');
   const addVariantButton = document.getElementById('add-variant');
-  const variantsContainer = document.getElementById('variants-container').querySelector('tbody');
-  const variantTemplate = document.getElementById('variant-template').innerHTML;
+  const variantsContainer = document.querySelector('#variants-table tbody');
+  let variantIndex = variantsContainer.children.length;  // Track the number of variants
 
   // Function to add a new variant field
   const addVariantField = () => {
-    const index = variantsContainer.querySelectorAll('.variant-fields').length;
-    const newVariantFields = variantTemplate.replace(/__index__/g, index);
+    const template = document.getElementById('variant-template').innerHTML;
+    const newVariantFields = template.replace(/__index__/g, variantIndex);
     variantsContainer.insertAdjacentHTML('beforeend', newVariantFields);
-    updateEventListeners();
-    updateProductPreview();
+    variantIndex++;  // Increment the index for new variants
+
+    attachRemoveVariantListeners();  // Attach event listeners for the new remove buttons
+    updateProductPreview();  // Update the preview dynamically
   };
 
-  // Function to update the product preview card
+  // Attach remove event listeners to all "Remove Variant" buttons
+  const attachRemoveVariantListeners = () => {
+    document.querySelectorAll('.remove-variant').forEach(button => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.target.closest('.variant-fields').remove();  // Remove the row
+        updateProductPreview();
+      });
+    });
+  };
+
+  // Function to update the product preview dynamically
   const updateProductPreview = () => {
     const name = document.querySelector('input[name="product[name]"]').value;
     const description = document.querySelector('textarea[name="product[description]"]').value;
     const price = document.querySelector('input[name="product[price]"]').value;
-    const image = document.querySelector('input[name="product[image]"]').files[0];
-    const previewImage = document.querySelector('.card-img-top');
+
     const previewTitle = document.querySelector('.card-title');
     const previewText = document.querySelector('.card-text');
-
-    if (image) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        previewImage.src = e.target.result;
-      };
-      reader.readAsDataURL(image);
-    } else {
-      previewImage.src = ''; // Clear the image preview if no image is selected
-    }
 
     previewTitle.textContent = name || 'Product Name';
     previewText.innerHTML = `<p>${description || 'Product description goes here.'}</p><p><strong>Price: $</strong> ${price || '0.00'}</p>`;
@@ -56,43 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Function to update event listeners on dynamic elements
-  const updateEventListeners = () => {
-    variantsContainer.querySelectorAll('.remove-variant').forEach(button => {
-      button.addEventListener('click', () => {
-        button.closest('.variant-fields').remove();
-        updateProductPreview();
-      });
-    });
-
-    document.querySelectorAll('input[name="product[name]"], textarea[name="product[description]"], input[name="product[price]"], input[name="product[image]"]').forEach(input => {
-      input.addEventListener('input', updateProductPreview);
-    });
-  };
-
-  // Initial setup
-  addVariantButton.addEventListener('click', addVariantField);
-  updateEventListeners();
-  updateProductPreview();
-});
-document.addEventListener("DOMContentLoaded", function() {
-  const filterForm = document.getElementById('filter-form');
-
-  filterForm.addEventListener('submit', function(event) {
+  // Event listener for the Add Variant button
+  addVariantButton.addEventListener('click', (event) => {
     event.preventDefault();
-    
-    const formData = new FormData(filterForm);
-    
-    fetch(filterForm.action, {
-      method: 'GET',
-      body: formData,
-      headers: {
-        'Accept': 'application/javascript'
-      }
-    })
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('products-list').innerHTML = data;
-    });
+    addVariantField();
   });
+
+  // Attach event listeners to existing Remove Variant buttons
+  attachRemoveVariantListeners();
+
+  // Update product preview on page load
+  updateProductPreview();
 });

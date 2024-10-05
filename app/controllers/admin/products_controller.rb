@@ -64,6 +64,10 @@ class Admin::ProductsController < Admin::BaseController
 
   private
 
+  def product_params
+    params.require(:product).permit(:name, :description, :price, :image, :gender, variants_attributes: [:id, :color, :size, :quantity, :_destroy])
+  end
+  
   def set_product
     @product = Product.find_by(id: params[:id])
   end
