@@ -30,15 +30,16 @@
         </div>
       </div>
     </div>
+    
     <div class="form-group">
-    <%= form.label :gender, "Product Gender", class: 'col-sm-2 control-label' %>
+      <%= form.label :gender, "Product Gender", class: 'col-sm-2 control-label' %>
       <div class="col-sm-10">
         <%= form.select :gender, Product::GENDERS, { prompt: 'Select Gender' }, class: 'form-control' %>
       </div>
     </div>
     
     <h3 class="text-center text-red">Product Variants</h3>
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped" id="variants-table">
       <thead class="bg-dark text-white">
         <tr>
           <th>Color</th>
@@ -49,7 +50,7 @@
       </thead>
       <tbody>
         <%= form.fields_for :variants do |variant_form| %>
-          <tr>
+          <tr class="variant-fields">
             <%= variant_form.hidden_field :_destroy %>
             <td><%= variant_form.text_field :color, class: 'form-control' %></td>
             <td><%= variant_form.text_field :size, class: 'form-control' %></td>
@@ -62,74 +63,69 @@
       </tbody>
     </table>
 
-    <%= link_to_add_fields "Add Variant", form, :variants, class: 'btn btn-primary mb-4' %>
+    <button type="button" id="add-variant" class="btn btn-primary mb-4">Add Variant</button>
 
     <!-- Submit Button -->
     <div class="form-group text-center">
       <%= form.submit "Save Product", class: 'btn btn-success btn-lg' %>
     </div>
   </div>
+  <style>
+    .text-red {
+      color: red;
+    }
+
+    .bg-dark {
+      background-color: black;
+    }
+
+    .btn-primary {
+      background-color: red;
+      border-color: red;
+    }
+
+    .btn-primary:hover {
+      background-color: black;
+      border-color: black;
+      color: red;
+    }
+
+    .btn-danger {
+      background-color: black;
+      border-color: black;
+      color: red;
+    }
+
+    .btn-danger:hover {
+      background-color: red;
+      border-color: red;
+      color: white;
+    }
+
+    .btn-success {
+      background-color: black;
+      border-color: black;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background-color: red;
+      border-color: red;
+      color: white;
+    }
+
+    .table thead th {
+      background-color: black;
+      color: white;
+    }
+
+    .table tbody tr:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+
+    .table tbody tr:nth-child(even) {
+      background-color: #ffffff;
+    }
+  </style>
+
 <% end %>
-
-<!-- Styles -->
-<style>
-  .text-red {
-    color: red;
-  }
-
-  .bg-dark {
-    background-color: black;
-  }
-
-  .btn-primary {
-    background-color: red;
-    border-color: red;
-  }
-
-  .btn-primary:hover {
-    background-color: black;
-    border-color: black;
-    color: red;
-  }
-
-  .btn-danger {
-    background-color: black;
-    border-color: black;
-    color: red;
-  }
-
-  .btn-danger:hover {
-    background-color: red;
-    border-color: red;
-    color: white;
-  }
-
-  .btn-success {
-    background-color: black;
-    border-color: black;
-    color: white;
-  }
-
-  .btn-success:hover {
-    background-color: red;
-    border-color: red;
-    color: white;
-  }
-
-  .table thead th {
-    background-color: black;
-    color: white;
-  }
-
-  .table tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
-  }
-
-  .table tbody tr:nth-child(even) {
-    background-color: #ffffff;
-  }
-
-  .form-horizontal .form-group {
-    margin-bottom: 1rem;
-  }
-</style>

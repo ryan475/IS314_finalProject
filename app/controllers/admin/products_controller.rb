@@ -110,8 +110,8 @@ class Admin::ProductsController < Admin::BaseController
 
   def set_filters
     @categories = Category.all
-    @colors = ['Black', 'Blue', 'Red', 'White', 'Grey', 'Green', 'Yellow', 'Maroon', 'Pink']
-    @sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
+    @colors = Variant.distinct.pluck(:color) # Dynamically load colors from Variants
+    @sizes = Variant.distinct.pluck(:size)   # Dynamically load sizes from Variants
   end
 
   def product_params

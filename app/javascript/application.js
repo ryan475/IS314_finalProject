@@ -5,28 +5,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('product-form');
   const addVariantButton = document.getElementById('add-variant');
   const variantsContainer = document.querySelector('#variants-table tbody');
+  const variantTemplate = document.getElementById('variant-template').innerHTML;
   let variantIndex = variantsContainer.children.length;  // Track the number of variants
 
+  // Function to show feedback messages
+  const showFeedback = (message, type = 'success') => {
+    const feedbackContainer = document.getElementById('feedback');
+    feedbackContainer.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+    setTimeout(() => feedbackContainer.innerHTML = '', 3000); // Remove message after 3 seconds
+  };
+  
   // Function to add a new variant field
   const addVariantField = () => {
-    const template = document.getElementById('variant-template').innerHTML;
-    const newVariantFields = template.replace(/__index__/g, variantIndex);
+    const newVariantFields = variantTemplate.replace(/__index__/g, variantIndex);
     variantsContainer.insertAdjacentHTML('beforeend', newVariantFields);
     variantIndex++;  // Increment the index for new variants
 
-    attachRemoveVariantListeners();  // Attach event listeners for the new remove buttons
+    // Attach remove listeners to the newly added remove buttons
+    attachRemoveVariantListeners();
     updateProductPreview();  // Update the preview dynamically
   };
 
   // Attach remove event listeners to all "Remove Variant" buttons
   const attachRemoveVariantListeners = () => {
     document.querySelectorAll('.remove-variant').forEach(button => {
-      button.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.target.closest('.variant-fields').remove();  // Remove the row
-        updateProductPreview();
-      });
+      button.removeEventListener('click', removeVariantField); // Avoid duplicate event listeners
+      button.addEventListener('click', removeVariantField);
     });
+  };
+
+  // Function to remove a variant field
+  const removeVariantField = (event) => {
+    event.preventDefault();
+    event.target.closest('.variant-fields').remove();  // Remove the row
+    updateProductPreview();  // Update the preview after removing
   };
 
   // Function to update the product preview dynamically
@@ -70,4 +82,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Update product preview on page load
   updateProductPreview();
+});
+
+// Another DOMContentLoaded for the Filter Form (if used)
+document.addEventListener('DOMContentLoaded', () => {
+  const filterForm = document.getElementById('filter-form');
+
+  if (filterForm) {
+    filterForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+    
+      const formData = new FormData(filterForm);
+    
+      fetch(filterForm.action, {
+        method: 'GET',
+        body: formData,
+        headers: {
+          'Accept': 'application/javascript'
+        }
+      })
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('products-list').innerHTML = data;
+      });
+    });
+  }
 });

@@ -1,0 +1,47 @@
+<%= form_with model: @product, local: true, html: { class: 'product-form', id: 'product-form' } do |form| %>
+  <div class="container">
+    <h1 class="text-center mb-4"><%= @product.new_record? ? 'Add New Product' : 'Edit Product' %></h1>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <%= form.label :name, class: 'form-label' %>
+        <%= form.text_field :name, class: 'form-control' %>
+      </div>
+
+      <div class="col-md-6">
+        <%= form.label :price, class: 'form-label' %>
+        <%= form.number_field :price, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <%= form.label :description, class: 'form-label' %>
+      <%= form.text_area :description, class: 'form-control' %>
+    </div>
+
+    <div class="form-group mb-3">
+      <%= form.label :image, "Upload Image", class: 'form-label' %>
+      <%= form.file_field :image, class: 'form-control' %>
+    </div>
+
+    <!-- Gender Dropdown -->
+    <div class="form-group mb-3">
+      <%= form.label :gender, "Product Gender", class: 'form-label' %>
+      <%= form.select :gender, options_for_select(['Men', 'Women', 'Unisex'], @product.gender), { prompt: 'Select Gender' }, class: 'form-control' %>
+    </div>
+
+    <h3 class="mb-3">Variants</h3>
+    <div id="variants-container" class="mb-4">
+      <%= form.fields_for :variants do |variant_form| %>
+        <%= render 'variant_fields', f: variant_form %>
+      <% end %>
+      <div class="form-group">
+        <%= link_to 'Add Another Variant', '#', id: 'add-variant', class: 'btn btn-primary' %>
+      </div>
+    </div>
+
+    <div class="form-group text-center mt-3">
+      <%= form.submit @product.new_record? ? "Create Product" : "Update Product", class: 'btn btn-success' %>
+    </div>
+  </div>
+<% end %>

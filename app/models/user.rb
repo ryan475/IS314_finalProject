@@ -6,4 +6,22 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :name, presence: true
+  before_create :set_default_role
+
+  def set_default_role
+    self.role ||= 'user'
+  end
+  
+  def admin?
+    role == 'admin'
+  end
+
+  def super_admin?
+    role == 'super_admin'
+  end
+
+  def user?
+    role == 'user'
+  end
+
 end
