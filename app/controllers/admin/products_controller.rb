@@ -21,14 +21,14 @@ class Admin::ProductsController < Admin::BaseController
 
   def create
     @product = Product.new(product_params)
-
+  
     if @product.save
-      redirect_to admin_product_path(@product), notice: 'Product was successfully created.'
+      redirect_to admin_products_path, notice: "Product successfully created!"
     else
       render :new
     end
   end
-
+  
   def edit
     unless @product
       flash[:alert] = "Product not found."
