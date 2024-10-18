@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('product-form');
   const addVariantButton = document.getElementById('add-variant');
   const variantsContainer = document.querySelector('#variants-table tbody');
-  const variantTemplate = document.getElementById('variant-template').innerHTML;
   let variantIndex = variantsContainer.children.length;  // Track the number of variants
 
   // Template for adding a new variant row
