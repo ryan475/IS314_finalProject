@@ -1,0 +1,7 @@
+<% if @user.admin? %>
+  <p>As an admin, you can manage products.</p>
+<% elsif @user.super_admin? %>
+  <p>As a super admin, you have full control over the platform.</p>
+<% else %>
+  <p>As a user, you can browse products and make purchases.</p>
+<% end %>

@@ -1,5 +1,18 @@
+<% most_sold_product = Product.most_sold %>
+<% least_sold_product = Product.least_sold %>
+
 <h2>Most Sold Product</h2>
-<%= Product.most_sold.name %> (Total Sold: <%= Product.most_sold.variants.joins(:sales).sum(:quantity) %>)
+<% if most_sold_product %>
+  <%= most_sold_product.name %> 
+  (Total Sold: <%= most_sold_product.variants.joins(:sales).sum(:quantity) %>)
+<% else %>
+  <p>No products sold yet.</p>
+<% end %>
 
 <h2>Least Sold Product</h2>
-<%= Product.least_sold.name %> (Total Sold: <%= Product.least_sold.variants.joins(:sales).sum(:quantity) %>)
+<% if least_sold_product %>
+  <%= least_sold_product.name %> 
+  (Total Sold: <%= least_sold_product.variants.joins(:sales).sum(:quantity) %>)
+<% else %>
+  <p>No products sold yet.</p>
+<% end %>

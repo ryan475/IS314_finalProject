@@ -39,25 +39,32 @@
       </div>
       
       <div class="col-md-6 col-sm-12 mb-3">
-        <div class="form-group" style="width:20%;">
+        <div class="form-group">
           <%= form.label :price, class: 'form-label' %>
           <%= form.number_field :price, step: 1.0, class: 'form-control', id: 'product-price' %>
         </div>
       </div>
     </div>
 
-    <div class="form-group mb-3" style="width:50%;">
+    <div class="form-group mb-3">
       <%= form.label :description, class: 'form-label' %>
       <%= form.text_area :description, class: 'form-control', rows: 4, id: 'product-description' %>
     </div>
 
-    <div class="form-group mb-3" style="width:30%;">
+    <div class="form-group mb-3">
       <%= form.label :image, "Upload Image", class: 'form-label' %>
       <%= form.file_field :image, class: 'form-control', id: 'product-image' %>
     </div>
 
+    <!-- Gender Dropdown -->
+    <div class="form-group mb-3">
+      <%= form.label :gender, "Product Gender", class: 'form-label' %>
+      <%= form.select :gender, options_for_select(['Men', 'Women', 'Unisex'], @product.gender), { prompt: 'Select Gender' }, class: 'form-control' %>
+    </div>
+
     <h3 class="mb-3">Variants</h3>
     <div id="variants-container" class="mb-4">
+    <button type="button" id="add-variant" class="btn btn-primary">Add Another Variant</button>
       <table class="table table-striped" id="variants-table">
         <thead>
           <tr>
@@ -79,7 +86,6 @@
         </tbody>
       </table>
     </div>
-    <button type="button" id="add-variant" class="btn btn-primary">Add Another Variant</button>
 
     <% if @product.errors.any? %>
       <div class="alert alert-danger mt-3">
@@ -95,16 +101,21 @@
       <%= form.submit @product.new_record? ? "Create Product" : "Update Product", class: 'btn btn-success', id: 'submit-button' %>
     </div>
   </div>
+    <!-- Feedback message placeholder -->
+  <div id="feedback" class="my-3"></div>
+
 
   <!-- Dynamic Card Preview -->
   <div class="product-preview">
     <h3>Product Preview</h3>
-    <div class="card" style="width: 100%; max-width: 300px;">
-      <% if @product.image.attached? %>
+    <div class="card">
+            
+      <% if @product.persisted? && @product.image.attached? %>
         <%= image_tag @product.image, alt: @product.name, class: 'card-img-top' %>
       <% else %>
         <%= image_tag 'default-image.png', alt: 'Default Image', class: 'card-img-top' %>
       <% end %>
+  
       <div class="card-body">
         <h5 class="card-title"><%= @product.name %></h5>
         <p class="card-text"><%= @product.description %></p>
@@ -125,12 +136,11 @@
   </div>
 <% end %>
 
-<!-- Template for New Variant Row -->
 <script type="text/template" id="variant-template">
   <tr class="variant-fields">
-    <td><input type="text" name="product[variants_attributes][][color]" class="form-control" /></td>
-    <td><input type="text" name="product[variants_attributes][][size]" class="form-control" /></td>
-    <td><input type="number" name="product[variants_attributes][][quantity]" class="form-control" /></td>
+    <td><input type="text" name="product[variants_attributes][__index__][color]" class="form-control" /></td>
+    <td><input type="text" name="product[variants_attributes][__index__][size]" class="form-control" /></td>
+    <td><input type="number" name="product[variants_attributes][__index__][quantity]" class="form-control" /></td>
     <td><button type="button" class="remove-variant btn btn-danger btn-sm">Remove Variant</button></td>
   </tr>
 </script>

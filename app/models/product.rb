@@ -16,6 +16,10 @@ class Product < ApplicationRecord
   # Custom validation for variants
   validate :must_have_at_least_one_variant
 
+  GENDERS = ['Men', 'Women'] # You can adjust these options
+
+  validates :gender, inclusion: { in: GENDERS }
+
   # Scopes for sales
   def self.most_sold
     joins(variants: :sales)
@@ -34,9 +38,9 @@ class Product < ApplicationRecord
   def self.search(query)
     where("name LIKE ? OR description LIKE ?", "%#{query}%", "%#{query}%")
   end
-
+  
   private
-
+  
   # Ensure at least one variant exists
   def must_have_at_least_one_variant
     if variants.reject(&:marked_for_destruction?).empty?
