@@ -6,7 +6,7 @@ class Admin::BaseController < ApplicationController
   # Strong Parameters for Product
   def product_params
     params.require(:product).permit(
-      :name, :description, :price, :image,
+      :name, :description, :price, :image, :gender,
       variants_attributes: [:id, :color, :size, :quantity, :_destroy]
     )
   end

@@ -39,8 +39,6 @@ class Product < ApplicationRecord
     where("name LIKE ? OR description LIKE ?", "%#{query}%", "%#{query}%")
   end
   
-  params.require(:product).permit(:name, :description, :price, :image, :gender, variants_attributes: [:id, :color, :size, :quantity, :_destroy])
-
   private
   
   # Ensure at least one variant exists

@@ -3,6 +3,9 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+    # Allow requests from the specified host  
+  config.hosts << "g4hh5l5c-3000.aue.devtunnels.ms"
+  
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
@@ -73,9 +76,6 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
-  # Allow requests from the specified host
-  config.hosts << "lbkt7229-3000.aue.devtunnels.ms"
-  
   # Allow all origins in development (for testing purposes)
   config.action_controller.forgery_protection_origin_check = false
 end

@@ -16,7 +16,7 @@ class Admin::ProductsController < Admin::BaseController
   end
 
   def new
-    @product = Product.new
+    @product = Product.new(product_params)
   end
 
   def create
@@ -25,7 +25,9 @@ class Admin::ProductsController < Admin::BaseController
     if @product.save
       redirect_to admin_products_path, notice: "Product successfully created!"
     else
-      render :new
+      # Output errors to the Rails log
+        Rails.logger.info @product.errors.full_messages
+        render :new
     end
   end
   
@@ -64,14 +66,26 @@ class Admin::ProductsController < Admin::BaseController
   private
 
   def product_params
-    params.require(:product).permit(:name, :description, :price, :image, :gender, variants_attributes: [:id, :color, :size, :quantity, :_destroy])
+    params.require(:product).permit(
+      :name, 
+      :description, 
+      :price, 
+      :image, 
+      :gender, 
+      variants_attributes: [:id, :color, :size, :quantity, :_destroy]
+    )
   end
   
   def set_product
     @product = Product.find_by(id: params[:id])
-    @products = Product.includes(:variants, :category).all
-
   end
+
+  def set_filters
+    @categories = Category.all
+    @colors = Variant.distinct.pluck(:color) # Fetch unique colors from the variants
+    @sizes = Variant.distinct.pluck(:size)   # Fetch unique sizes from the variants
+  end
+
   def filter_products
     check_price_ranges
   

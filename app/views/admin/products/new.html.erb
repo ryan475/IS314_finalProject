@@ -109,11 +109,13 @@
   <div class="product-preview">
     <h3>Product Preview</h3>
     <div class="card">
-      <% if @product.image.attached? %>
+            
+      <% if @product.persisted? && @product.image.attached? %>
         <%= image_tag @product.image, alt: @product.name, class: 'card-img-top' %>
       <% else %>
         <%= image_tag 'default-image.png', alt: 'Default Image', class: 'card-img-top' %>
       <% end %>
+  
       <div class="card-body">
         <h5 class="card-title"><%= @product.name %></h5>
         <p class="card-text"><%= @product.description %></p>
